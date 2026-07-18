@@ -1,0 +1,32 @@
+services:
+  # ── Backend: Spring Boot API ──────────────────────────────────────────────
+  - type: web
+    name: cinepass-backend
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    plan: free
+    healthCheckPath: /api/movies
+    envVars:
+      - key: SPRING_DATASOURCE_URL
+        sync: false          # You will fill this in Render dashboard
+      - key: SPRING_DATASOURCE_USERNAME
+        sync: false
+      - key: SPRING_DATASOURCE_PASSWORD
+        sync: false
+      - key: JWT_SECRET
+        generateValue: true  # Render auto-generates a secure random value
+      - key: CORS_ALLOWED_ORIGINS
+        sync: false          # Set this to your frontend Render URL after deploy
+
+  # ── Frontend: React + Vite (served via nginx) ────────────────────────────
+  - type: web
+    name: cinepass-frontend
+    runtime: docker
+    dockerfilePath: ./frontend/Dockerfile
+    dockerContext: ./frontend
+    plan: free
+    buildArgs:
+      - key: VITE_API_URL
+        sync: false          # Set this to your backend Render URL + /api
+    envVars: []

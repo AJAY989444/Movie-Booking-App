@@ -4,6 +4,7 @@ package vn.edu.likelion.movie_tickets_online_bookings.service.implement;
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -47,7 +48,11 @@ public class UserServiceImpl implements UserService {
 
         UserEntity userEntity = userMapper.toEntity(userRequest);
         System.out.println(userEntity);
-        userRepo.save(userEntity);
+        try {
+            userRepo.save(userEntity);
+        } catch (DataIntegrityViolationException e) {
+            throw new UserException("Phone number already exists!");
+        }
 
         log.info("Registration successfully");
         return userMapper.toResponse(userEntity);

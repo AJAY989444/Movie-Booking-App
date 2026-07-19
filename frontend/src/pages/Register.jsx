@@ -15,6 +15,7 @@ const Register = () => {
   const [error, setError] = useState('');
   const [success, setSuccess] = useState(false);
   const [submitting, setSubmitting] = useState(false);
+  const [slowWarning, setSlowWarning] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -34,6 +35,11 @@ const Register = () => {
     }
 
     setSubmitting(true);
+    setSlowWarning(false);
+
+    // Show a hint if backend takes more than 5 seconds (Render cold-start)
+    const slowTimer = setTimeout(() => setSlowWarning(true), 5000);
+
     try {
       const result = await register(name, email, password, phoneNumber);
       if (result.success) {
@@ -44,8 +50,23 @@ const Register = () => {
       }
     } catch (err) {
       console.error(err);
-      setError(err.response?.data?.message || 'Registration failed. Email or phone number might already exist.');
+      if (err.code === 'ECONNABORTED' || err.message?.includes('timeout')) {
+        setError('The server is taking too long to respond (cold start). Please wait a moment and try again.');
+      } else {
+        const msg = err.response?.data?.message || '';
+        if (msg.toLowerCase().includes('email') || msg.toLowerCase().includes('already exist')) {
+          setError('This email address is already registered. Please use a different email or login.');
+        } else if (msg.toLowerCase().includes('phone')) {
+          setError('This phone number is already registered. Please use a different phone number.');
+        } else if (msg.toLowerCase().includes('invalid password')) {
+          setError('Password does not meet the complexity requirements.');
+        } else {
+          setError(msg || 'Registration failed. Please try again with a different email or phone number.');
+        }
+      }
     } finally {
+      clearTimeout(slowTimer);
+      setSlowWarning(false);
       setSubmitting(false);
     }
   };
@@ -73,6 +94,24 @@ const Register = () => {
             Register to start booking movie tickets
           </p>
         </div>
+
+        {slowWarning && !error && (
+          <div style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '0.5rem',
+            width: '100%',
+            padding: '0.75rem 1rem',
+            borderRadius: 'var(--radius-sm)',
+            marginBottom: '1.5rem',
+            fontSize: '0.85rem',
+            background: 'rgba(251, 191, 36, 0.12)',
+            border: '1px solid rgba(251, 191, 36, 0.35)',
+            color: '#fbbf24',
+          }}>
+            <span>⏳ Backend is waking up on Render (free tier). This may take up to 60 seconds — please wait…</span>
+          </div>
+        )}
 
         {error && (
           <div className="badge-danger" style={{

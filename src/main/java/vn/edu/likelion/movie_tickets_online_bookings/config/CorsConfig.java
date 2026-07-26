@@ -20,10 +20,12 @@ public class CorsConfig {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
 
-        // Parse comma-separated origins from environment variable
-        List<String> origins = Arrays.asList(allowedOriginsRaw.split(","));
-        config.setAllowedOriginPatterns(Arrays.asList("*")); // Allow all origin patterns dynamically
-        config.setAllowedOrigins(origins);
+        // Use allowedOriginPatterns to safely support wildcards with allowCredentials=true
+        if (allowedOriginsRaw != null && !allowedOriginsRaw.trim().isEmpty()) {
+            List<String> origins = Arrays.asList(allowedOriginsRaw.split(","));
+            config.setAllowedOriginPatterns(origins);
+        }
+        config.addAllowedOriginPattern("*");
 
         config.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"));
         config.setAllowedHeaders(Arrays.asList("*"));

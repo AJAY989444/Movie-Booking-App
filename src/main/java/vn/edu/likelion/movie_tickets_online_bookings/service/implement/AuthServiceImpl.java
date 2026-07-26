@@ -27,7 +27,8 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public String userLogin(LoginRequest loginRequest) {
         System.out.println("========= login =========");
-        UserEntity userEntity = userRepo.findByEmail(loginRequest.getEmail()).orElseThrow(
+        String email = loginRequest.getEmail() != null ? loginRequest.getEmail().trim() : "";
+        UserEntity userEntity = userRepo.findByEmail(email).orElseThrow(
                 () -> new UserException("Email Not Found ...!")
         );
 
@@ -65,7 +66,8 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public String adminLogin(LoginRequest loginRequest) {
         System.out.println("========= login =========");
-        UserEntity userEntity = userRepo.findByEmail(loginRequest.getEmail()).orElseThrow(
+        String email = loginRequest.getEmail() != null ? loginRequest.getEmail().trim() : "";
+        UserEntity userEntity = userRepo.findByEmail(email).orElseThrow(
                 () -> new UserException("Email Not Found ...!")
         );
 

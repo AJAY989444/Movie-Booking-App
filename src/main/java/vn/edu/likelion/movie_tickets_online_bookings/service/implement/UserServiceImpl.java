@@ -36,6 +36,13 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserResponse create(UserRequest userRequest) {
+        if (userRequest.getEmail() != null) {
+            userRequest.setEmail(userRequest.getEmail().trim().toLowerCase());
+        }
+        if (userRequest.getPhoneNumber() != null) {
+            userRequest.setPhoneNumber(userRequest.getPhoneNumber().trim());
+        }
+
         log.info("Performing email validation");
         if (isEmailExists(userRequest.getEmail())) {
             throw new UserException("User is already exist ...!");
@@ -95,7 +102,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserResponse findByEmail(String email) {
-        UserEntity userEntity = userRepo.findByEmail(email).orElseThrow(
+        String sanitizedEmail = email != null ? email.trim().toLowerCase() : "";
+        UserEntity userEntity = userRepo.findByEmail(sanitizedEmail).orElseThrow(
                 () -> new UserException("Invalid Email ...!")
         );
         return userMapper.toResponse(userEntity);

@@ -22,16 +22,11 @@ public class CorsConfig {
 
         // Parse comma-separated origins from environment variable
         List<String> origins = Arrays.asList(allowedOriginsRaw.split(","));
+        config.setAllowedOriginPatterns(Arrays.asList("*")); // Allow all origin patterns dynamically
         config.setAllowedOrigins(origins);
 
         config.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"));
-        config.setAllowedHeaders(Arrays.asList(
-                "Authorization",
-                "Content-Type",
-                "Accept",
-                "Origin",
-                "X-Requested-With"
-        ));
+        config.setAllowedHeaders(Arrays.asList("*"));
         config.setAllowCredentials(true);
         config.setMaxAge(3600L);
 

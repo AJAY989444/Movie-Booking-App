@@ -9,7 +9,7 @@ import vn.edu.likelion.movie_tickets_online_bookings.entity.TicketEntity;
 @Mapper(componentModel = "spring")
 public interface TicketMapper {
 
-    @Mapping( target = "price", constant = "90000")
+    @Mapping( target = "price", constant = "300")
     TicketEntity toEntity(TicketRequest ticketRequest);
 
     @Mapping( source = "createdAt", target = "bookingTime")

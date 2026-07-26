@@ -14,13 +14,17 @@ CinePass is a full-stack, enterprise-grade movie booking application built with 
 
 ## 🔑 Default Login Credentials
 
-The system automatically initializes and seeds all necessary roles, cinema halls, seats, movies, and showtimes on its first launch. You can log in immediately using the following accounts:
+The system automatically seeds all required roles, cinema halls, seats, movies, and showtimes on first launch via `DataInitializer.java`. You can log in immediately using the credentials below:
 
-| Role | Email | Password | Allowed Operations |
+| Role | Email | Password | Access |
 | :--- | :--- | :--- | :--- |
-| **Administrator** | `admin@cinepass.com` | `admin123` | Full access, manage halls, movies, seat structures, showtimes, and user accounts. |
-| **Staff Member** | `staff@cinepass.com` | `staff123` | Ticket booking workflow, view seat layouts, scan/validate bookings, and manage customer tickets. |
-| **Standard Customer** | `user@cinepass.com` | `user123` | Browse active movies, search showtimes, book interactive seats in real-time, and view transaction history. |
+| **Admin** | `admin@moviebooking.com` | `Admin@12345` | Full access — manage movies, halls, seats, showtimes, and view all customer bookings via `/admin`. |
+| **Customer** | `user@moviebooking.com` | `User@12345` | Browse movies, book seats, and view booking history via `/profile`. |
+
+> ⚠️ **Note:** You can also register a new customer account from the `/register` page. Only the Admin account has access to the Admin Control Center.
+
+### 🎟️ Ticket Price
+* **Price per seat:** ₹300 (Indian Rupees)
 
 ---
 

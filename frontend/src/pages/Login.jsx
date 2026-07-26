@@ -29,7 +29,9 @@ const Login = () => {
       }
     } catch (err) {
       console.error(err);
-      setError(err.response?.data?.message || 'Login failed. Please check your credentials.');
+      const data = err.response?.data;
+      const msg = (typeof data === 'string' ? data : data?.details || data?.message || '');
+      setError(msg || 'Login failed. Please check your email, password, or Administrator checkbox.');
     } finally {
       setSubmitting(false);
     }

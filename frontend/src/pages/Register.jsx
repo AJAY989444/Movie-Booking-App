@@ -53,15 +53,16 @@ const Register = () => {
       if (err.code === 'ECONNABORTED' || err.message?.includes('timeout')) {
         setError('The server is taking too long to respond (cold start). Please wait a moment and try again.');
       } else {
-        const msg = err.response?.data?.message || '';
+        const data = err.response?.data;
+        const msg = (typeof data === 'string' ? data : data?.details || data?.message || '');
         if (msg.toLowerCase().includes('email') || msg.toLowerCase().includes('already exist')) {
           setError('This email address is already registered. Please use a different email or login.');
         } else if (msg.toLowerCase().includes('phone')) {
           setError('This phone number is already registered. Please use a different phone number.');
         } else if (msg.toLowerCase().includes('invalid password')) {
-          setError('Password does not meet the complexity requirements.');
+          setError('Password does not meet complexity requirements (e.g. Test@1234).');
         } else {
-          setError(msg || 'Registration failed. Please try again with a different email or phone number.');
+          setError(msg || 'Registration failed. Please check your details and try again.');
         }
       }
     } finally {

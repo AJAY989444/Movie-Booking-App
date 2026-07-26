@@ -302,7 +302,7 @@ const Profile = () => {
                         fontWeight: 800,
                         color: isCanceled ? 'var(--text-dark)' : 'var(--text-main)'
                       }}>
-                        {ticket.price?.toLocaleString()} VND
+                        ₹{ticket.price?.toLocaleString()}
                       </p>
                       
                       <div style={{ marginTop: '0.25rem' }}>

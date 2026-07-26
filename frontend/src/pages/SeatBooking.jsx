@@ -18,7 +18,7 @@ const SeatBooking = () => {
   const [error, setError] = useState('');
   const [success, setSuccess] = useState(false);
 
-  const TICKET_PRICE = 90000; // 90,000 VND constant from backend mapper
+  const TICKET_PRICE = 300; // Ticket price in Rupees (₹)
 
   useEffect(() => {
     fetchBookingData();
@@ -278,7 +278,7 @@ const SeatBooking = () => {
             </div>
             <div style={{ display: 'flex', justifyContent: 'space-between' }}>
               <span>Price per seat:</span>
-              <span style={{ color: 'var(--text-main)', fontWeight: 600 }}>{TICKET_PRICE.toLocaleString()} VND</span>
+              <span style={{ color: 'var(--text-main)', fontWeight: 600 }}>₹{TICKET_PRICE.toLocaleString()}</span>
             </div>
           </div>
         </div>
@@ -343,7 +343,7 @@ const SeatBooking = () => {
                   }}>
                     <span style={{ fontSize: '0.9rem', color: 'var(--text-muted)' }}>Total Cost:</span>
                     <span style={{ fontSize: '1.5rem', fontWeight: 800, color: 'var(--accent-cyan)' }}>
-                      {totalPrice.toLocaleString()} VND
+                      ₹{totalPrice.toLocaleString()}
                     </span>
                   </div>
 

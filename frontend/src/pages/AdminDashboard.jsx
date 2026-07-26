@@ -62,7 +62,7 @@ const BookingsList = () => {
                   <td style={{ padding: '0.75rem 1rem' }}>{t.showtime?.hall?.name || 'N/A'}</td>
                   <td style={{ padding: '0.75rem 1rem', color: 'var(--accent-cyan)' }}>{t.seat?.seatNumber || 'N/A'}</td>
                   <td style={{ padding: '0.75rem 1rem', color: 'var(--text-muted)' }}>{t.showtime ? `${t.showtime.showtimeDate} ${t.showtime.startTime.substring(0,5)}` : 'N/A'}</td>
-                  <td style={{ padding: '0.75rem 1rem', fontWeight: 'bold' }}>{t.price?.toLocaleString()} VND</td>
+                  <td style={{ padding: '0.75rem 1rem', fontWeight: 'bold' }}>₹{t.price?.toLocaleString()}</td>
                   <td style={{ padding: '0.75rem 1rem' }}>
                     <span className={t.status === 'CANCELED' ? 'badge badge-danger' : 'badge badge-success'} style={{ fontSize: '0.75rem' }}>
                       {t.status}
